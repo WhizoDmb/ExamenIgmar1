@@ -1,0 +1,23 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.custom-pagination .pagination {
+    font-size: 12px !important; /* Ajusta el tamaño de la fuente según tu preferencia */
+}
+
+.custom-pagination .pagination .page-link {
+    font-size: 12px !important; /* Ajusta el tamaño de la fuente según tu preferencia */
+    padding: 5px 10px !important; /* Ajusta el relleno según tu preferencia */
+}
+
+.custom-pagination .pagination .page-item.active .page-link {
+    background-color: #007bff !important; /* Ajusta el color de fondo */
+    border-color: #007bff !important; /* Ajusta el color del borde */
+    color: white !important; /* Ajusta el color del texto */
+}
+
+.custom-pagination .pagination .page-item.disabled .page-link {
+    opacity: 0.5 !important; /* Ajusta la opacidad para los elementos deshabilitados */
+}
