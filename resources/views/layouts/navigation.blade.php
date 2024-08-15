@@ -1,8 +1,8 @@
-<header class="d-flex justify-content-center py-3">
+<header class="py-3 d-flex justify-content-center">
     <!-- Logo and Title -->
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+    <a href="/" class="mb-3 d-flex align-items-center mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
         <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-        <span class="fs-4">Practica</span>
+        <span class="fs-4">Examen Ordinario</span>
     </a>
 
     <!-- Navigation Links -->

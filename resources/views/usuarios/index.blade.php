@@ -47,6 +47,7 @@
                     <th>Evaluación ID</th>
                     <th>Evaluación User ID</th>
                     <th>Número de Aciertos</th>
+                    <th>Fecha de Evaluación</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -60,6 +61,7 @@
                             <td>{{ $evaluacion->id }}</td>
                             <td>{{ $evaluacion->user_id }}</td>
                             <td>{{ $evaluacion->aciertos }}</td>
+                            <td>{{ $evaluacion->created_at->format('d-m-Y H:i') }}</td>
                             <td>
                                 <!-- Formulario para enviar correo -->
                                 <form action="{{ route('admin.send') }}" method="get" class="d-inline">

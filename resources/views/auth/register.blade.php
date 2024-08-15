@@ -63,7 +63,7 @@ background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg
                     <svg class="SVGBGI"  style="width: 85px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="accent" d="M16 3H9L5 14h6l-4 8 12-12h-6l3-7z"></path><path class="outline" d="M19 9h-4.48l2.4-5.61A1 1 0 0 0 16 2H9a1 1 0 0 0-.94.66l-4 11A1 1 0 0 0 5 15h4.38L6.1 21.55c-.5 1.01.8 1.95 1.6 1.15l12-12a1 1 0 0 0-.71-1.71Zm-8.35 7.94 1.24-2.49A1 1 0 0 0 11 13H6.43L9.7 4h4.78l-2.4 5.61A1 1 0 0 0 13 11h3.59l-5.94 5.94Z"></path><path class="solid" d="M19 9h-4.48l2.4-5.61A1 1 0 0 0 16 2H9a1 1 0 0 0-.94.66l-4 11A1 1 0 0 0 5 15h4.38L6.1 21.55c-.5 1.01.8 1.95 1.6 1.15l12-12a1 1 0 0 0-.71-1.71Z"></path></svg>
 
                     <br><br>
-                    <h1>VoltVortex Gym</h1>
+                    <h1>Evaluaciones</h1>
 
                     <br>
                  </center>

@@ -18,7 +18,16 @@ class EvaluacionesAdminController extends Controller
     {
 
         // Obtener todos los usuarios con sus evaluaciones
-        $usuariosConEvaluaciones = User::whereHas('evaluaciones')->with('evaluaciones')->get();
+        $usuariosConEvaluaciones = User::whereHas('evaluaciones')
+            ->with(['evaluaciones' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            }])
+            ->orderByDesc(function ($query) {
+                $query->selectRaw('MAX(created_at)')
+                    ->from('evaluaciones')
+                    ->whereColumn('user_id', 'users.id');
+            })
+            ->get();
 
         // Pasar los datos a la vista
         return view('usuarios.index', compact('usuariosConEvaluaciones'));
@@ -27,14 +36,22 @@ class EvaluacionesAdminController extends Controller
 
     public function send(Request $request)
     {
-
         $evaluacionId = $request->input('evaluacion_id');
 
-        // Obtener la evaluación por su ID
+        // Obtener la evaluación por su ID junto con las operaciones
         $data = Evaluacion::with('operaciones')->findOrFail($evaluacionId);
 
-        // Generar el PDF
-        $pdf = Pdf::loadView('invoice', compact('data'));
+        // Calcular el número de aciertos
+        $aciertos = $data->operaciones()->where('estatus', true)->count();
+
+        // Calcular el total de operaciones
+        $totalOperaciones = $data->operaciones()->count();
+
+        // Calcular la calificación (puede ajustarse según el sistema de calificaciones)
+        $calificacion = $totalOperaciones > 0 ? ($aciertos / $totalOperaciones) * 100 : 0;
+
+        // Generar el PDF con los datos adicionales
+        $pdf = Pdf::loadView('invoice', compact('data', 'aciertos', 'calificacion'));
 
         // Definir la ruta para almacenar el PDF
         $pdfFilename = 'invoice.pdf';
