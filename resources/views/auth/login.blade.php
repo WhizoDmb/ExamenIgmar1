@@ -55,94 +55,92 @@ a:not(.selected):hover .SVGBG-lightning-bolt {
         </style>
     </head>
     <body>
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-4">
-                    <!-- Session Status -->
-                    @if (session('status'))
-                        <div class="mb-4 alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+        <center></center>
+        <div class="container">
+            <div class="row">
+                <!-- Session Status -->
+                @if (session('status'))
+                    <div class="mb-4 alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
 
+                    <div class="mr-5 col-4">
+                        <center style="margin-top:10%;">
+                            <svg class="SVGBGI"  style="width: 250px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="accent" d="M16 3H9L5 14h6l-4 8 12-12h-6l3-7z"></path><path class="outline" d="M19 9h-4.48l2.4-5.61A1 1 0 0 0 16 2H9a1 1 0 0 0-.94.66l-4 11A1 1 0 0 0 5 15h4.38L6.1 21.55c-.5 1.01.8 1.95 1.6 1.15l12-12a1 1 0 0 0-.71-1.71Zm-8.35 7.94 1.24-2.49A1 1 0 0 0 11 13H6.43L9.7 4h4.78l-2.4 5.61A1 1 0 0 0 13 11h3.59l-5.94 5.94Z"></path><path class="solid" d="M19 9h-4.48l2.4-5.61A1 1 0 0 0 16 2H9a1 1 0 0 0-.94.66l-4 11A1 1 0 0 0 5 15h4.38L6.1 21.55c-.5 1.01.8 1.95 1.6 1.15l12-12a1 1 0 0 0-.71-1.71Z"></path></svg>
+                            <br><br>
+                            <h1 style="font-size: 70px">Evaluaciones</h1>
+                            <br>
+                        </center>
+                    </div>
+                    <div class="ml-5 col-6">
+                        <form method="POST" action="{{ route('login') }}" style="margin-top:10%">
+                            @csrf
 
-                    <center style="margin-top:10%;">
-
-                            <svg class="SVGBGI"  style="width: 85px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="accent" d="M16 3H9L5 14h6l-4 8 12-12h-6l3-7z"></path><path class="outline" d="M19 9h-4.48l2.4-5.61A1 1 0 0 0 16 2H9a1 1 0 0 0-.94.66l-4 11A1 1 0 0 0 5 15h4.38L6.1 21.55c-.5 1.01.8 1.95 1.6 1.15l12-12a1 1 0 0 0-.71-1.71Zm-8.35 7.94 1.24-2.49A1 1 0 0 0 11 13H6.43L9.7 4h4.78l-2.4 5.61A1 1 0 0 0 13 11h3.59l-5.94 5.94Z"></path><path class="solid" d="M19 9h-4.48l2.4-5.61A1 1 0 0 0 16 2H9a1 1 0 0 0-.94.66l-4 11A1 1 0 0 0 5 15h4.38L6.1 21.55c-.5 1.01.8 1.95 1.6 1.15l12-12a1 1 0 0 0-.71-1.71Z"></path></svg>
-
-                    <br><br>
-                    <h1>Evaluaciones</h1>
-
-                    <br>
-
-                    </center>
-
-                    <form method="POST" action="{{ route('login') }}" style="margin-top:10%">
-                        @csrf
-
-                        <!-- Email Address -->
-                        <div class="mb-3">
-                            <label for="email" class="form-label">{{ __('Email') }}</label>
-                            <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control form-control-custom" placeholder="Introduce tu email" required autofocus autocomplete="username"/>
-                            <small class="form-text form-text-custom">El nombre tu email.</small>
-                            @error('email')
-                                <div class="mt-2 text-danger">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        {{--  <div class="mb-3">
-                            <label for="email" class="form-label"></label>
-                            <input id="email" type="email" name="email" class="form-control" value="{{ old('email') }}" required autofocus autocomplete="username" />
-                            @error('email')
-                                <div class="mt-2 text-danger">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>--}}
-
-                        <!-- Password -->
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input id="password" type="password" name="password" class="form-control form-control-custom" id="inputNombre" placeholder="Introduce contraseña" required autocomplete>
-                            <small class="form-text form-text-custom">Escribe tu contraseña.</small>
-                            @error('password')
-                            <div class="mt-2 text-danger">
-                                {{ $message }}
+                            <!-- Email Address -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">{{ __('Email') }}</label>
+                                <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control form-control-custom" placeholder="Introduce tu email" required autofocus autocomplete="username"/>
+                                <small class="form-text form-text-custom">El nombre tu email.</small>
+                                @error('email')
+                                    <div class="mt-2 text-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                        @enderror
-                        </div>
-                        {{--<div class="mb-3">
-                            <label for="password" class="form-label">{{ __('Password') }}</label>
-                            <input id="password" type="password" name="password" class="form-control" required autocomplete="current-password" />
-                            @error('password')
+                            {{--  <div class="mb-3">
+                                <label for="email" class="form-label"></label>
+                                <input id="email" type="email" name="email" class="form-control" value="{{ old('email') }}" required autofocus autocomplete="username" />
+                                @error('email')
+                                    <div class="mt-2 text-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>--}}
+
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input id="password" type="password" name="password" class="form-control form-control-custom" id="inputNombre" placeholder="Introduce contraseña" required autocomplete>
+                                <small class="form-text form-text-custom">Escribe tu contraseña.</small>
+                                @error('password')
                                 <div class="mt-2 text-danger">
                                     {{ $message }}
                                 </div>
                             @enderror
-                        </div>--}}
+                            </div>
+                            {{--<div class="mb-3">
+                                <label for="password" class="form-label">{{ __('Password') }}</label>
+                                <input id="password" type="password" name="password" class="form-control" required autocomplete="current-password" />
+                                @error('password')
+                                    <div class="mt-2 text-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>--}}
 
 
-                        <a class="btn btn-link" href="{{ route('register') }}" style="text-decoration:none">
-                            {{ __('Si aun no estas registrado haz click aqui') }}
-                        </a>
+                            <a class="btn btn-link" href="{{ route('register') }}" style="text-decoration:none">
+                                {{ __('Si aun no estas registrado haz click aqui') }}
+                            </a>
 
-                    <!--   Remember Me
-                        <div class="mb-3 form-check">
-                            <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
-                            <label for="remember_me" class="form-check-label">{{ __('Recuerdame') }}</label>
-                        </div>-->
+                        <!--   Remember Me
+                            <div class="mb-3 form-check">
+                                <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
+                                <label for="remember_me" class="form-check-label">{{ __('Recuerdame') }}</label>
+                            </div>-->
 
 
-                        <br><br>
+                            <br><br>
 
-                        <center> <button type="submit" class="mb-5 btn btn-login col-12">
-                                {{ __('Iniciar Session') }}
-                            </button></center>
-                    </form>
-                </div>
+                            <center> <button type="submit" class="mb-5 btn btn-login col-12">
+                                    {{ __('Iniciar Session') }}
+                                </button></center>
+                        </form>
+                    </div>
             </div>
         </div>
+
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     </body>

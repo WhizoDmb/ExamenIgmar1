@@ -49,41 +49,37 @@
 
        <!-- Campo oculto para el ID de la evaluación -->
        <input type="hidden" name="id_evaluacion" value="{{ $id }}">
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="2">OPERACION</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($operaciones as $item)
-                <tr>
-                    <td>
-                        {{ $item->op1 }}
+                    <h1 class="mb-2" align="center">Evaluacion</h1>
+                    <div class="container w-75">
+
+
+                    <div class="row">
+                        @foreach ($operaciones as $item)
+                <div class="mb-3 col-6">
+                    <h5>{{ $item->op1 }}
                         {{ $item->tipo }}
-                        {{ $item->op2 }}
-                    </td>
-                    <td>
-
-                        <input type="text" class="form-control form-control-custom"name="respuesta_user[]" value="{{ old('respuesta_user.' . $loop->index) }}">
-                        <input type="hidden" name="id[]" value="{{ $item->id }}">
-                    </td>
-                </tr>
+                        {{ $item->op2 }}</h5>
+                            <input type="text" class="form-control form-control-custom"name="respuesta_user[]" value="{{ old('respuesta_user.' . $loop->index) }}">
+                            <input type="hidden" name="id[]" value="{{ $item->id }}">
+                </div>
             @endforeach
-            </tbody>
-        </table>
+                    </div>
+                </div>
 
-        <!-- Enlaces de paginación -->
+                    <center class="mt-5">
+                          <!-- Enlaces de paginación -->
         <div class="btn-group" role="group" aria-label="Paginación">
             @if($page == 4)
                 <button type="submit" name="page" value="5" class="btn btn-primary">Enviar Respuestas</button>
             @else
-                <button type="submit" name="page" value="1" class="btn btn-primary">1</button>
-                <button type="submit" name="page" value="2" class="btn btn-primary">2</button>
-                <button type="submit" name="page" value="3" class="btn btn-primary">3</button>
-                <button type="submit" name="page" value="4" class="btn btn-primary">4</button>
+            <button type="submit" name="page" value="1" class="btn btn-primary ">1</button>
+            <button type="submit" name="page" value="2" class="btn btn-primary ">2</button>
+            <button type="submit" name="page" value="3" class="btn btn-primary ">3</button>
+            <button type="submit" name="page" value="4" class="btn btn-primary">4</button>
             @endif
         </div>
+                    </center>
+
     </form>
 </div>
 @endsection

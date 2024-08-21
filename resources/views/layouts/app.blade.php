@@ -111,6 +111,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('evaluaciones.index') }}">Evaluación</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('evaluaciones.listado') }}">Mis evaluaciones</a>
+                            </li>
                         @endif
                     @endauth
                 </ul>

@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EvaluacionMail;
 use App\Models\Evaluacion;
 use App\Models\Operacion;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class EvaluacionesController extends Controller
 {
@@ -16,74 +21,94 @@ class EvaluacionesController extends Controller
 
     public function create()
     {
-        // Obtener el usuario autenticado
         $user = Auth::user();
 
-        // Crear una nueva evaluación para el usuario
         $evaluacion = new Evaluacion();
-        $evaluacion->user_id = $user->id; // Asignar el ID del usuario
-        $evaluacion->save(); // Guardar la evaluación en la base de datos
+        $evaluacion->user_id = $user->id;
+        $evaluacion->save();
 
-        //Declarar el id de la evaluacion apra crear los inserts
         $evaluacionId = $evaluacion->id;
 
         // Generar 10 SUMAS
         for ($i = 0; $i < 5; $i++) {
-            $op1 = rand(1, 100);
-            $op2 = rand(1, 100);
-            $respuestaCorrecta = $op1 + $op2;
+            $op1 = dechex(rand(400, 10000));
+            $op2 = dechex(rand(400, 10000));
+
+            // resultado en heza
+            $respuestaCorrectaHexaDecimal = hexdec($op1) + hexdec($op2);
+            // respuesta en binario
+            $respuestaCorrectaBinaria = decbin($respuestaCorrectaHexaDecimal);
+
 
             Operacion::create([
                 'op1' => $op1,
                 'op2' => $op2,
                 'tipo' => '+',
-                'respuesta_correcta' => $respuestaCorrecta,
-                'estatus' => true,
+                'respuesta_correcta' => $respuestaCorrectaBinaria,
+                'respuesta_correcta_decimal' => $respuestaCorrectaHexaDecimal,
+                'estatus' => false,
                 'evaluacion_id' => $evaluacionId
             ]);
         }
+
         // Generar 10 RESTAS
         for ($i = 0; $i < 5; $i++) {
-            $op1 = rand(1, 100);
-            $op2 = rand(1, 100);
-            $respuestaCorrecta = $op1 - $op2;
+            $op1 = dechex(rand(400, 10000));
+            $op2 = dechex(rand(400, 10000));
+
+            // resultado en heza
+            $respuestaCorrectaHexaDecimal = hexdec($op1) - hexdec($op2);
+            // respuesta en binario
+            $respuestaCorrectaBinaria = decbin($respuestaCorrectaHexaDecimal);
+
 
             Operacion::create([
                 'op1' => $op1,
                 'op2' => $op2,
                 'tipo' => '-',
-                'respuesta_correcta' => $respuestaCorrecta,
-                'estatus' => true,
+                'respuesta_correcta' => $respuestaCorrectaBinaria,
+                'respuesta_correcta_decimal' => $respuestaCorrectaHexaDecimal,
+                'estatus' => false,
                 'evaluacion_id' => $evaluacionId
             ]);
         }
-        // Generar 10 MUTLIPLICACIONES
+
         for ($i = 0; $i < 5; $i++) {
-            $op1 = rand(1, 100);
-            $op2 = rand(1, 100);
-            $respuestaCorrecta = $op1 * $op2;
+            $op1 = dechex(rand(400, 10000));
+            $op2 = dechex(rand(400, 10000));
+
+            // resultado en heza
+            $respuestaCorrectaHexaDecimal = hexdec($op1) * hexdec($op2);
+            // respuesta en binario
+            $respuestaCorrectaBinaria = decbin($respuestaCorrectaHexaDecimal);
 
             Operacion::create([
                 'op1' => $op1,
                 'op2' => $op2,
                 'tipo' => '*',
-                'respuesta_correcta' => $respuestaCorrecta,
-                'estatus' => true,
+                'respuesta_correcta' => $respuestaCorrectaBinaria,
+                'respuesta_correcta_decimal' => $respuestaCorrectaHexaDecimal,
+                'estatus' => false,
                 'evaluacion_id' => $evaluacionId
             ]);
         }
         // Generar 10 DIVISIONES
         for ($i = 0; $i < 5; $i++) {
-            $op1 = rand(1, 100);
-            $op2 = rand(1, 100);
-            $respuestaCorrecta = $op1 / $op2;
+            $op1 = dechex(rand(400, 10000));
+            $op2 = dechex(rand(400, 10000));
+
+            // resultado en heza
+            $respuestaCorrectaHexaDecimal = hexdec($op1) / hexdec($op2);
+            // respuesta en binario
+            $respuestaCorrectaBinaria = decbin($respuestaCorrectaHexaDecimal);
 
             Operacion::create([
                 'op1' => $op1,
                 'op2' => $op2,
                 'tipo' => '/',
-                'respuesta_correcta' => $respuestaCorrecta,
-                'estatus' => true,
+                'respuesta_correcta' => $respuestaCorrectaBinaria,
+                'respuesta_correcta_decimal' => $respuestaCorrectaHexaDecimal,
+                'estatus' => false,
                 'evaluacion_id' => $evaluacionId
             ]);
         }
@@ -118,12 +143,15 @@ class EvaluacionesController extends Controller
         //dd($id);
         foreach ($ids as $index => $ids) {
             $operacion = Operacion::find($ids);
-            $respuestaUsuario = $respuestas[$index];
+            $respuestaUsuario = $respuestas[$index]; // Respuesta en binario
+            // Convertir la respuesta binaria a decimal
+            $respuestaDecimal = bindec($respuestaUsuario);
 
             // Validar la respuesta del usuario
             if ($respuestaUsuario == $operacion->respuesta_correcta) {
                 $operacion->update([
                     'respuesta_usuario' => $respuestaUsuario,
+                    'respuesta_usuario_decimal' => $respuestaDecimal,
                     'estatus' => true
                 ]);
             } else {
@@ -162,8 +190,38 @@ class EvaluacionesController extends Controller
                     ->get();
                 break;
             case 5:
-                // Redirigir a dashboard con mensaje
-                return redirect()->route('dashboard')->with('success', 'Evaluación terminada con éxito');
+                $evaluacionId = $request->input('id_evaluacion');
+
+                // Obtener la evaluación por su ID junto con las operaciones
+                $data = Evaluacion::with('operaciones')->findOrFail($evaluacionId);
+
+                // Calcular el número de aciertos
+                $aciertos = $data->operaciones()->where('estatus', true)->count();
+
+                // Calcular el total de operaciones
+                $totalOperaciones = $data->operaciones()->count();
+
+                // Calcular la calificación (puede ajustarse según el sistema de calificaciones)
+                $calificacion = $totalOperaciones > 0 ? ($aciertos / $totalOperaciones) * 100 : 0;
+
+                // Generar el PDF con los datos adicionales
+                $pdf = Pdf::loadView('invoice', compact('data', 'aciertos', 'calificacion'));
+
+                // Definir la ruta para almacenar el PDF
+                $pdfFilename = 'invoice.pdf';
+                $pdfPath = 'invoices/' . $pdfFilename;
+                $pdfContent = $pdf->output();
+
+                // Guardar el PDF en el directorio público
+                Storage::disk('public')->put($pdfPath, $pdfContent);
+
+                // Generar la URL temporal firmada para el PDF (expira en 30 minutos)
+                $pdfUrl = URL::temporarySignedRoute('invoice.view', now()->addSeconds(30), ['filename' => $pdfFilename]);
+
+                //dd($pdfUrl);
+                // Enviar el correo
+                Mail::to('diego.cisneros.dp@gmail.com')->send(new EvaluacionMail($pdfUrl));
+                return redirect()->route('dashboard')->with('success', 'Evaluacion terminada con exito! Se enviará un correo con la evaluación');
             default:
                 // Manejar caso por defecto si es necesario
                 $operaciones = Operacion::where('evaluacion_id', $id)

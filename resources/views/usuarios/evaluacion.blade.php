@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles de la Evaluación</title>
+@extends('layouts.app')
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,7 +48,7 @@
         }
         .table th {
             background-color: #007bff;
-            color: #ffffff;
+            color: #000000;
         }
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: #f8f9fa;
@@ -122,10 +117,18 @@
 }
 
     </style>
-</head>
-<body>
+@section('content')
     <div class="container mt-4">
-        <h2>Detalles de la Evaluación</h2>
+        <div class="row">
+            <div class="col-10">
+                <h2>Detalles de la Evaluación</h2>
+            </div>
+            <div class="col-2">
+                <a href="{{ route('evaluaciones.send',['id'=>$data->id]) }}" class="btn btn-danger">Descargar PDF</a>
+            </div>
+
+        </div>
+
 
         <h3>FOLIO DE LA EVALUACIÓN: {{ $data->id }}</h3>
         <p><strong>Usuario:</strong> {{ $data->user->name }}</p>
@@ -140,7 +143,7 @@
                 <tr>
                     <th colspan="3">Operación</th>
                     <th>Respuesta Correcta</th>
-                    <th>Tu respuesta</th>
+                    <th>Respuesta Usuario</th>
                     <th>Correcta</th>
                 </tr>
             </thead>
@@ -151,7 +154,7 @@
                         <td>{{ $operacion->tipo }}</td>
                         <td>{{ $operacion->op2 }}</td>
                         <td class="respuesta-correcta">{{ $operacion->respuesta_correcta }}</td>
-                        <td>{{ $operacion->respuesta_usuario }}</td>
+                        <td class="respuesta-correcta">{{ $operacion->respuesta_usuario }}</td>
                         <td class="icon">
                             @if($operacion->estatus)
                             <div class="checkmark"></div>
@@ -165,5 +168,4 @@
             </tbody>
         </table>
     </div>
-</body>
-</html>
+@endsection

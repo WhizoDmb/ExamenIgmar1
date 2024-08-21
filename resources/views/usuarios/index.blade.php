@@ -36,7 +36,7 @@
 
 @section('content')
     <div class="container mt-4">
-        <h2 class="mb-4">Usuarios con Evaluaciones</h2>
+        <h2 class="mb-4">Usuarios</h2>
 
         <table class="table table-striped">
             <thead class="thead-dark">
@@ -44,8 +44,7 @@
                     <th>Usuario ID</th>
                     <th>Nombre</th>
                     <th>Correo</th>
-                    <th>Evaluación ID</th>
-                    <th>Evaluación User ID</th>
+                    <th>Folio</th>
                     <th>Número de Aciertos</th>
                     <th>Fecha de Evaluación</th>
                     <th>Acciones</th>
@@ -59,15 +58,10 @@
                             <td>{{ $usuario->name }}</td>
                             <td>{{ $usuario->email }}</td>
                             <td>{{ $evaluacion->id }}</td>
-                            <td>{{ $evaluacion->user_id }}</td>
                             <td>{{ $evaluacion->aciertos }}</td>
                             <td>{{ $evaluacion->created_at->format('d-m-Y H:i') }}</td>
                             <td>
-                                <!-- Formulario para enviar correo -->
-                                <form action="{{ route('admin.send') }}" method="get" class="d-inline">
-                                    <input type="hidden" name="evaluacion_id" value="{{ $evaluacion->id }}">
-                                    <button type="submit" class="btn-send-mail">Enviar Correo</button>
-                                </form>
+                                <a href="{{ route('admin.evaluacion',['id' => $evaluacion->id]) }}" class="btn btn-secondary">Ver detalles</a>
                             </td>
                         </tr>
                     @endforeach

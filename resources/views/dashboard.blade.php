@@ -16,7 +16,10 @@
             </div>
         </div>
     </div>
-@if(session('success'))
+</x-app-layout>
+
+<div class="container">
+    @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
@@ -26,4 +29,5 @@
             {{ session('error') }}
         </div>
     @endif
-</x-app-layout>
+</div>
+

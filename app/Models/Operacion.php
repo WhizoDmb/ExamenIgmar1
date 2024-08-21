@@ -18,6 +18,8 @@ class Operacion extends Model
         'op2',
         'respuesta_correcta',
         'respuesta_usuario',
+        'respuesta_correcta_decimal',
+        'respuesta_usuario_decimal',
         'tipo',
         'estatus',
         'evaluacion_id',  // Llave foránea al modelo Evaluacion

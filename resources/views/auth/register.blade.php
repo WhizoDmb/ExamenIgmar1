@@ -71,29 +71,32 @@ background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg
                 <form method="POST" action="{{ route('register') }}" class="mt-5">
                     @csrf
 
-                    <!-- Name -->
-                    <div class="mb-3">
-                        <label  for="name" class="form-label">{{ __('Name') }}</label>
-                        <input  id="name" type="text" name="name" value="{{ old('name') }}" class="form-control form-control-custom" placeholder="Introduce tu nombre"  required autofocus autocomplete="name">
-                        <small class="form-text form-text-custom">Escribe tu nombre</small>
-                        @error('name')
-                        <div class="mt-2 text-danger">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                    </div>
-
-                    <!-- Email Address -->
-                    <div class="mb-3">
-                        <label for="email" class="form-label">{{ __('Email') }}</label>
-                        <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control form-control-custom" placeholder="Introduce tu email" required autofocus autocomplete="username"/>
-                        <small class="form-text form-text-custom">El nombre tu email.</small>
-                        @error('email')
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <label  for="name" class="form-label">{{ __('Name') }}</label>
+                            <input  id="name" type="text" name="name" value="{{ old('name') }}" class="form-control form-control-custom" placeholder="Introduce tu nombre"  required autofocus autocomplete="name">
+                            <small class="form-text form-text-custom">Escribe tu nombre</small>
+                            @error('name')
                             <div class="mt-2 text-danger">
                                 {{ $message }}
                             </div>
                         @enderror
+                        </div>
+
+                        <!-- Email Address -->
+                        <div class="mb-3 col-6">
+                            <label for="email" class="form-label">{{ __('Email') }}</label>
+                            <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control form-control-custom" placeholder="Introduce tu email" required autofocus autocomplete="username"/>
+                            <small class="form-text form-text-custom">El nombre tu email.</small>
+                            @error('email')
+                                <div class="mt-2 text-danger">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
+                    <!-- Name -->
+
 
                     <!-- Password -->
                     <div class="mb-3">

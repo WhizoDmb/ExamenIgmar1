@@ -33,6 +33,21 @@ class EvaluacionesAdminController extends Controller
         return view('usuarios.index', compact('usuariosConEvaluaciones'));
     }
 
+    public function detalle($id)
+    {
+        $data = Evaluacion::with('operaciones')->findOrFail($id);
+
+        // Calcular el número de aciertos
+        $aciertos = $data->operaciones()->where('estatus', true)->count();
+
+        // Calcular el total de operaciones
+        $totalOperaciones = $data->operaciones()->count();
+
+        // Calcular la calificación (puede ajustarse según el sistema de calificaciones)
+        $calificacion = $totalOperaciones > 0 ? ($aciertos / $totalOperaciones) * 100 : 0;
+        return view('usuarios.evaluacion', compact('data', 'aciertos', 'calificacion'));
+    }
+
 
     public function send(Request $request)
     {
