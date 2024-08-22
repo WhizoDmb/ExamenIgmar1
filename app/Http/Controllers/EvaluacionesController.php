@@ -29,85 +29,84 @@ class EvaluacionesController extends Controller
 
         $evaluacionId = $evaluacion->id;
 
-        // Generar 10 SUMAS
+        // Generar 10 SUMAS en hexadecimal
         for ($i = 0; $i < 5; $i++) {
             $op1 = dechex(rand(400, 10000));
             $op2 = dechex(rand(400, 10000));
 
-            // resultado en heza
-            $respuestaCorrectaHexaDecimal = hexdec($op1) + hexdec($op2);
-            // respuesta en binario
-            $respuestaCorrectaBinaria = decbin($respuestaCorrectaHexaDecimal);
+            // resultado
+            $respuestaCorrecta = hexdec($op1) + hexdec($op2);
+            // respuesta en octal
+            $respuestaCorrectaOctal = decoct($respuestaCorrecta);
 
 
             Operacion::create([
                 'op1' => $op1,
                 'op2' => $op2,
                 'tipo' => '+',
-                'respuesta_correcta' => $respuestaCorrectaBinaria,
-                'respuesta_correcta_decimal' => $respuestaCorrectaHexaDecimal,
+                'respuesta_correcta' => $respuestaCorrectaOctal,
+                'respuesta_correcta_decimal' => $respuestaCorrecta,
                 'estatus' => false,
                 'evaluacion_id' => $evaluacionId
             ]);
         }
 
-        // Generar 10 RESTAS
+        // Generar 10 RESTAS en octal
         for ($i = 0; $i < 5; $i++) {
-            $op1 = dechex(rand(400, 10000));
-            $op2 = dechex(rand(400, 10000));
+            $op1 = decoct(rand(400, 10000));
+            $op2 = decoct(rand(400, 10000));
 
-            // resultado en heza
-            $respuestaCorrectaHexaDecimal = hexdec($op1) - hexdec($op2);
-            // respuesta en binario
-            $respuestaCorrectaBinaria = decbin($respuestaCorrectaHexaDecimal);
+
+            $respuestaCorrecta = octdec($op1) - octdec($op2);
+            // respuesta en octal
+            $respuestaCorrectaOctal = decoct($respuestaCorrecta);
 
 
             Operacion::create([
                 'op1' => $op1,
                 'op2' => $op2,
                 'tipo' => '-',
-                'respuesta_correcta' => $respuestaCorrectaBinaria,
-                'respuesta_correcta_decimal' => $respuestaCorrectaHexaDecimal,
+                'respuesta_correcta' => $respuestaCorrectaOctal,
+                'respuesta_correcta_decimal' => $respuestaCorrecta,
                 'estatus' => false,
                 'evaluacion_id' => $evaluacionId
             ]);
         }
 
         for ($i = 0; $i < 5; $i++) {
-            $op1 = dechex(rand(400, 10000));
-            $op2 = dechex(rand(400, 10000));
+            $op1 = decbin(rand(400, 10000));
+            $op2 = decbin(rand(400, 10000));
 
-            // resultado en heza
-            $respuestaCorrectaHexaDecimal = hexdec($op1) * hexdec($op2);
-            // respuesta en binario
-            $respuestaCorrectaBinaria = decbin($respuestaCorrectaHexaDecimal);
+            $respuestaCorrecta = bindec($op1) * bindec($op2);
+            // respuesta en octal
+            $respuestaCorrectaOctal = decoct($respuestaCorrecta);
 
             Operacion::create([
                 'op1' => $op1,
                 'op2' => $op2,
                 'tipo' => '*',
-                'respuesta_correcta' => $respuestaCorrectaBinaria,
-                'respuesta_correcta_decimal' => $respuestaCorrectaHexaDecimal,
+                'respuesta_correcta' => $respuestaCorrectaOctal,
+                'respuesta_correcta_decimal' => $respuestaCorrecta,
                 'estatus' => false,
                 'evaluacion_id' => $evaluacionId
             ]);
         }
         // Generar 10 DIVISIONES
         for ($i = 0; $i < 5; $i++) {
-            $op1 = dechex(rand(400, 10000));
-            $op2 = dechex(rand(400, 10000));
+            $op1 = rand(10, 100);
+            $op2 = rand(10, 100);
 
             // resultado en heza
-            $respuestaCorrectaHexaDecimal = hexdec($op1) / hexdec($op2);
+            $respuestaCorrecta = $op1 / $op2;
             // respuesta en binario
-            $respuestaCorrectaBinaria = decbin($respuestaCorrectaHexaDecimal);
+            $respuestaCorrectaOctal = decoct($respuestaCorrecta);
 
             Operacion::create([
                 'op1' => $op1,
                 'op2' => $op2,
                 'tipo' => '/',
-                'respuesta_correcta' => $respuestaCorrectaBinaria,
-                'respuesta_correcta_decimal' => $respuestaCorrectaHexaDecimal,
+                'respuesta_correcta' => $respuestaCorrectaOctal,
+                'respuesta_correcta_decimal' => $respuestaCorrecta,
                 'estatus' => false,
                 'evaluacion_id' => $evaluacionId
             ]);
@@ -143,9 +142,9 @@ class EvaluacionesController extends Controller
         //dd($id);
         foreach ($ids as $index => $ids) {
             $operacion = Operacion::find($ids);
-            $respuestaUsuario = $respuestas[$index]; // Respuesta en binario
-            // Convertir la respuesta binaria a decimal
-            $respuestaDecimal = bindec($respuestaUsuario);
+            $respuestaUsuario = $respuestas[$index]; // Respuesta en octal
+            // Convertir la respuesta octal a decimal
+            $respuestaDecimal = octdec($respuestaUsuario);
 
             // Validar la respuesta del usuario
             if ($respuestaUsuario == $operacion->respuesta_correcta) {
