@@ -94,6 +94,24 @@ class EvaluacionesController extends Controller
                 'evaluacion_id' => $evaluacionId
             ]);
         }
+
+        function decimalToOctal($decimal)
+        {
+            $whole = floor($decimal);
+            $fraction = $decimal - $whole;
+
+            $octalWhole = decoct($whole);
+            $octalFraction = '';
+
+            while ($fraction > 0 && strlen($octalFraction) < 12) {
+                $fraction *= 8;
+                $octalDigit = floor($fraction);
+                $octalFraction .= $octalDigit;
+                $fraction -= $octalDigit;
+            }
+
+            return $octalFraction === '' ? $octalWhole : $octalWhole . '.' . $octalFraction;
+        }
         // Generar 10 DIVISIONES
         for ($i = 0; $i < 5; $i++) {
             $op1 = rand(10, 100);
@@ -102,7 +120,7 @@ class EvaluacionesController extends Controller
             // resultado en heza
             $respuestaCorrecta = $op1 / $op2;
             // respuesta en binario
-            $respuestaCorrectaOctal = decoct($respuestaCorrecta);
+            $respuestaCorrectaOctal = decimalToOctal($respuestaCorrecta);
 
             Operacion::create([
                 'op1' => $op1,
@@ -149,7 +167,26 @@ class EvaluacionesController extends Controller
 
         //dd($id);
 
+        foreach ($ids as $index => $ids) {
+            $operacion = Operacion::find($ids);
+            $respuestaUsuario = $respuestas[$index]; // Respuesta en octal
+            // Convertir la respuesta octal a decimal
+            $respuestaDecimal = octdec($respuestaUsuario);
 
+            // Validar la respuesta del usuario
+            if ($respuestaUsuario == $operacion->respuesta_correcta) {
+                $operacion->update([
+                    'respuesta_usuario' => $respuestaUsuario,
+                    'respuesta_usuario_decimal' => $respuestaDecimal,
+                    'estatus' => true
+                ]);
+            } else {
+                $operacion->update([
+                    'respuesta_usuario' => $respuestaUsuario,
+                    'estatus' => false
+                ]);
+            }
+        }
 
         $page = $request->input('page');
 
