@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\EvaluacionMail;
-use App\Models\Evaluacion;
 use App\Models\Operacion;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Evaluacion;
+use App\Mail\EvaluacionMail;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 
 class EvaluacionesController extends Controller
 {
@@ -53,13 +53,16 @@ class EvaluacionesController extends Controller
 
         // Generar 10 RESTAS en octal
         for ($i = 0; $i < 5; $i++) {
-            $op1 = decoct(rand(400, 10000));
-            $op2 = decoct(rand(400, 10000));
+            $op1dec = rand(400, 999);
+            $op2dec = rand(99, 399);
 
 
-            $respuestaCorrecta = octdec($op1) - octdec($op2);
+            $respuestaCorrecta = $op1dec - $op2dec;
             // respuesta en octal
             $respuestaCorrectaOctal = decoct($respuestaCorrecta);
+
+            $op1 = decoct($op1dec);
+            $op2 = decoct($op2dec);
 
 
             Operacion::create([
@@ -133,6 +136,11 @@ class EvaluacionesController extends Controller
         ]);
     }
 
+
+
+
+
+
     public function copaginator(Request $request, $id, $page)
     {
         $respuestas = $request->input('respuesta_user');
@@ -140,26 +148,8 @@ class EvaluacionesController extends Controller
         $id = $request->input('id_evaluacion'); // Capturar el id de la evaluación
 
         //dd($id);
-        foreach ($ids as $index => $ids) {
-            $operacion = Operacion::find($ids);
-            $respuestaUsuario = $respuestas[$index]; // Respuesta en octal
-            // Convertir la respuesta octal a decimal
-            $respuestaDecimal = octdec($respuestaUsuario);
 
-            // Validar la respuesta del usuario
-            if ($respuestaUsuario == $operacion->respuesta_correcta) {
-                $operacion->update([
-                    'respuesta_usuario' => $respuestaUsuario,
-                    'respuesta_usuario_decimal' => $respuestaDecimal,
-                    'estatus' => true
-                ]);
-            } else {
-                $operacion->update([
-                    'respuesta_usuario' => $respuestaUsuario,
-                    'estatus' => false
-                ]);
-            }
-        }
+
 
         $page = $request->input('page');
 
